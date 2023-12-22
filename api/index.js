@@ -1,21 +1,19 @@
-/*
- * "NotoSansJP-Black" is lisenced under the SIL Open Font License 1.1
- * https://fonts.google.com/attribution
- * http://scripts.sil.org/OFL
- */
-
 const { ChartJSNodeCanvas } = require('chartjs-node-canvas');
-const canvas = require('canvas'); // point
+const canvas = require('canvas');
+
+// Register font
+// const fontPath = './canvas/arialbd.ttf';
+// canvas.registerFont(fontPath, { family: 'sr' });
 
 module.exports = async (req, res) => {
-    const width = 1200;
-    const height = 630;
-    
+    const width = 1280;
+    const height = 638;
+
     const chartJSNodeCanvas = new ChartJSNodeCanvas({ width, height, chartCallback: (ChartJS) => {
-        ChartJS.defaults.font.family = 'NotoSansJP-Black';
+        ChartJS.defaults.font.family = 'sr';
     } });
 
-    chartJSNodeCanvas.registerFont('./fonts/NotoSansJP-Black.otf', { family: 'NotoSansJP-Black' });
+    chartJSNodeCanvas.registerFont(fontPath, { family: 'sr' });
 
     const configuration = {
         type: 'bar',
@@ -54,11 +52,11 @@ module.exports = async (req, res) => {
             }
         }
     };
-    
+
     const buffer = await chartJSNodeCanvas.renderToBuffer(configuration);
     res.writeHead(200, {
         "Content-Type": "image/png",
         "Content-Length": buffer.length,
     });
     res.end(buffer, "binary");
-}
+};
